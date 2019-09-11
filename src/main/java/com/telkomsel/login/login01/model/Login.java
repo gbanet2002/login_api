@@ -60,7 +60,7 @@ public String login(String username, String password) {
 			URL obj = new URL(api_url);
 			HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
-			// add reuqest header
+			// add request header
 			con.setRequestMethod("POST");
 			con.setRequestProperty("Content-Type", "application/json");
 			con.setRequestProperty("api_key", api_key);
