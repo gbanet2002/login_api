@@ -16,6 +16,7 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.configurationprocessor.json.JSONArray;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
@@ -93,11 +94,9 @@ public String login(String username, String password) {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
-		//System.out.println("Mashery Response Code : " + mashery_response_code);
-		//System.out.println("Mashery Response : " + mashery_response);
 		
 		result = "Resp Code : " + mashery_response_code + ", Resp : " + mashery_response;
+		result = this.getSessionID(mashery_response);
 
 		return result;
 	}
@@ -115,5 +114,16 @@ public String login(String username, String password) {
 		// System.out.println(api_key + api_secret +
 		// Long.toString(System.currentTimeMillis() / 1000L));
 		return DigestUtils.sha256Hex(api_key + api_secret + Long.toString(System.currentTimeMillis() / 1000L));
+	}
+	
+	private String getSessionID(String json) {
+	    
+		String SessionID = "";
+		
+	    JSONObject obj = new JSONObject(json);
+	    SessionID = obj.getString("session_id");
+
+	    return SessionID;
+	    
 	}
 }
